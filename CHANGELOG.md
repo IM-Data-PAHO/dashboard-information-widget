@@ -1,6 +1,6 @@
 # Changelog
 
-## 2.2.0 (2026-05-29)
+## 2.1.1.3 (2026-05-29)
 
 - Internacionalizacion de interfaz (EN/ES/FR) para botones, mensajes y errores del widget.
 - Soporte de contenido por idioma en DataStore con `bodyByLocale` y fallback por locale.

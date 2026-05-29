@@ -3,7 +3,7 @@
 
 **Autor:** PAHO/CIM
 
-**Versión:** 2.1.1.2
+**Versión:** 2.1.1.3
 
 
 ## Overview
@@ -11,7 +11,7 @@
 El widget DHIS2 Rich Text and Video Dashboard Widget es un editor WYSIWYG que permite crear contenido enriquecido en los dashboards de DHIS2. Internamente, el widget se llama `Information`.
 
 
-### Novedades en 2.1.1.2
+### Novedades en 2.1.1.3
 
 - Soporte para dominios de iframe configurables desde DataStore (`allowedIframeDomains`).
 - Mensaje de error amigable si se intenta mostrar un iframe de un dominio no permitido.
