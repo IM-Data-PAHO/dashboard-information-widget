@@ -4,6 +4,7 @@ import { Button } from '@material-ui/core';
 import { Link, withRouter } from 'react-router-dom';
 import Editor from './editor.component';
 import contentHook from '../shared/services/contentHook.service';
+import { debugLog, getIframeDebugInfo } from '../shared/services/debug.service';
 
 const styles = {
     link: {
@@ -32,17 +33,31 @@ class Edit extends React.Component<
         super(props);
         this.state = {};
         fetchContent().then((resp) => {
+            debugLog('edit.loadContent', {
+                contentLength: (resp || '').length,
+                iframeInfo: getIframeDebugInfo(resp),
+            });
             this.setState({
                 editedContent: resp,
             });
         });
     }
     onChange = (newContent) => {
+        debugLog('edit.onChange', {
+            contentLength: (newContent || '').length,
+            iframeInfo: getIframeDebugInfo(newContent),
+        });
         this.setState({ editedContent: newContent });
     };
 
     saveChanges = () => {
-        saveContent(contentHook(this.state.editedContent))
+        const hookedContent = contentHook(this.state.editedContent);
+        debugLog('edit.beforeSave', {
+            contentLength: (hookedContent || '').length,
+            iframeInfo: getIframeDebugInfo(hookedContent),
+        });
+
+        saveContent(hookedContent)
             .then((resp) => {
                 this.props.postMessage('Content saved');
                 this.props.history.push('/');

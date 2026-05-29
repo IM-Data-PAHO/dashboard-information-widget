@@ -35,6 +35,8 @@ export const config = {
     buttons: buttons,
     toolbarAdaptive: false,
     link: link,
+    // Prevent Jodit iframe wrapper placeholders from being persisted.
+    useIframeResizer: false,
     height: window.innerHeight - 80,
     style: {fontFamily: 'Roboto'}
 };

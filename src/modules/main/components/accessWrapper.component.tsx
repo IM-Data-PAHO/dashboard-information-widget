@@ -1,4 +1,5 @@
 import React from 'react';
+import { ensureAllowedIframeDomainsKey } from '../../shared/services/iframeDomains.service';
 import RouterWrapper from './routerWrapper.component';
 import api from '../../shared/services/api.service';
 import DhisVersionError from './dhisVersionError.component';
@@ -16,17 +17,28 @@ export default class AccessWrapper extends React.Component<any, any> {
         this.checkUser();
         this.checkVersion();
         this.checkAdminOnlyEdit();
+        // Asegura que la clave de dominios permitidos exista
+        ensureAllowedIframeDomainsKey();
     }
 
     checkUser() {
         api.get('/me?fields=userCredentials[userRoles[name,id]]').then(
             (res) => {
-                let isAdmin = res.userCredentials.userRoles.filter((role) =>
-                    role.name.includes('Superuser')
+                const roles =
+                    res?.userCredentials?.userRoles ||
+                    res?.userRoles ||
+                    [];
+                const isAdmin = roles.some(
+                    (role) =>
+                        role?.name?.includes('Superuser') ||
+                        role?.name?.includes('Administr')
                 );
-                if (isAdmin.length) this.setState({ isAdmin: true });
+                this.setState({ isAdmin });
             }
-        );
+        ).catch(() => {
+            // Keep read-only behavior if user role lookup fails.
+            this.setState({ isAdmin: false });
+        });
     }
 
     checkVersion() {
@@ -52,7 +64,7 @@ export default class AccessWrapper extends React.Component<any, any> {
     render() {
         return (
             <React.Fragment>
-                {this.state.dhisVersion !== null && this.state.dhisVersion < 2.31 ? (
+                {this.state.dhisVersion !== null && parseFloat(this.state.dhisVersion) < 2.31 ? (
                     <DhisVersionError version={this.state.dhisVersion} />
                 ) : (
                     <RouterWrapper

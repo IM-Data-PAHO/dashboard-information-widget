@@ -22,7 +22,7 @@ config.i18n.sources.add('i18n.txt');
 init()
     .then((d2) => {
         render(
-            <Dhis2Wrapper appName={'Dedupe Dashboard'} d2={d2} />,
+            <Dhis2Wrapper appName={'Dashboard Information'} d2={d2} />,
             document.getElementById('root')
         );
     })

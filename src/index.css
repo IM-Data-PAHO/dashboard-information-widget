@@ -1,3 +1,50 @@
+html,
+body,
+#root {
+    font-family: Roboto, Arial, sans-serif;
+}
+
 a {
     text-decoration: none;
+}
+
+.dashboard-information-content {
+    overflow-wrap: anywhere;
+    font-family: Roboto, Arial, sans-serif;
+    color: #212934;
+}
+
+.dashboard-information-content h1,
+.dashboard-information-content h2,
+.dashboard-information-content h3,
+.dashboard-information-content h4,
+.dashboard-information-content h5,
+.dashboard-information-content h6,
+.dashboard-information-content p,
+.dashboard-information-content span,
+.dashboard-information-content div,
+.dashboard-information-content li,
+.dashboard-information-content td,
+.dashboard-information-content th {
+    font-family: inherit;
+}
+
+.dashboard-information-content iframe {
+    max-width: 100%;
+}
+
+.dashboard-information-content img {
+    max-width: 100%;
+    height: auto;
+}
+
+.dashboard-information-content table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.dashboard-information-content td,
+.dashboard-information-content th {
+    border: 1px solid #d8d8d8;
+    padding: 6px;
 }
