@@ -73,6 +73,80 @@ Extra console helpers:
 - `window.__diwDebugDump()` prints a table with all events.
 - `window.__diwDebugLast()` returns the latest raw debug event object.
 
+## Multilanguage translations in DHIS2
+
+This widget now supports two translation layers:
+
+1. Interface translations (buttons, messages, alerts)
+2. Dashboard content translations (rich text/video body per language)
+
+### How locale is resolved
+
+The widget resolves active locale in this order:
+
+1. URL override (`?lang=es` or `?locale=fr`) when `Allow locale override` is enabled
+2. DHIS2 user locale (`/me` profile settings)
+3. Widget default locale from DataStore configuration
+4. `en`
+
+### DataStore configuration keys
+
+In namespace `dashboard-information`, key `configuration`, the app reads:
+
+- `Only open to superusers` (existing behavior)
+- `Default locale` (example: `en`)
+- `Supported locales` (example: `['en', 'es', 'fr']`)
+- `Allow locale override` (boolean)
+
+If these keys do not exist, the app initializes defaults automatically.
+
+### Localized content model
+
+Each widget item now supports:
+
+```json
+{
+	"body": "<p>Latest saved content</p>",
+	"defaultLocale": "en",
+	"bodyByLocale": {
+		"en": "<p>English content</p>",
+		"es": "<p>Contenido en espanol</p>",
+		"fr": "<p>Contenu en francais</p>"
+	}
+}
+```
+
+Backwards compatibility is preserved:
+
+- If `bodyByLocale` is missing, the widget still renders legacy `body`.
+- Saving from the editor writes locale-aware structure automatically.
+
+### Editing content in multiple languages
+
+1. Open widget edit mode.
+2. Use the Language selector above the editor.
+3. Update content for the selected locale.
+4. Save.
+
+The render view will show the best available fallback if current locale content is not present.
+
+### Extending UI translations
+
+UI strings are managed in:
+
+- `src/modules/shared/services/i18n.service.ts`
+
+To add a language (example `pt`):
+
+1. Add `pt` under each translation key in `dictionary`.
+2. Add `pt` to `Supported locales` in DataStore configuration.
+3. Optionally set `Default locale` to `pt`.
+
+### Testing locale behavior quickly
+
+- Add `?lang=es` or `?lang=fr` to widget URL.
+- Or disable override and test with users that have different DHIS2 locale preferences.
+
 ## Issues, Features, etc.
 
 Please create [an issue](https://github.com/pepfar-datim/dashboard-information-widget/issues) or [a pull request](https://github.com/pepfar-datim/dashboard-information-widget/pulls).

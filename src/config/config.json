@@ -1,4 +1,8 @@
 {
   "datastoreNamespace": "dashboard-information",
-  "onlyOpenToSuperUsersKey": "Only open to superusers"
+  "onlyOpenToSuperUsersKey": "Only open to superusers",
+  "allowedIframeDomainsKey": "Allowed iframe domains",
+  "defaultLocaleConfigKey": "Default locale",
+  "supportedLocalesConfigKey": "Supported locales",
+  "allowLocaleOverrideConfigKey": "Allow locale override"
 }

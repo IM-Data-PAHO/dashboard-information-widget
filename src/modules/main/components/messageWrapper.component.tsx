@@ -3,6 +3,7 @@ import Snackbar from '@material-ui/core/Snackbar/Snackbar';
 import { IconButton } from '@material-ui/core';
 import CloseIcon from '@material-ui/icons/Close';
 import AccessWrapper from './accessWrapper.component';
+import { t } from '../../shared/services/i18n.service';
 
 export default class MessageWrapper extends React.Component<
     {},
@@ -38,7 +39,7 @@ export default class MessageWrapper extends React.Component<
                     action={
                         <IconButton
                             key="close"
-                            aria-label="Close"
+                            aria-label={t('close', 'Close')}
                             color="inherit"
                             onClick={() => this.hideMessage()}
                         >

@@ -14,7 +14,7 @@ const DEFAULT_IFRAME_DOMAINS = [
     'fast.wistia.net',
 ];
 
-const ALLOWED_IFRAME_DOMAINS_KEY = 'Allowed iframe domains';
+const ALLOWED_IFRAME_DOMAINS_KEY = config.allowedIframeDomainsKey || 'Allowed iframe domains';
 
 let cachedDomains: string[] | null = null;
 
