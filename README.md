@@ -11,13 +11,14 @@
 The DHIS2 Rich Text and Video Dashboard Widget is a WYSIWYG editor for creating rich content in DHIS2 dashboards. Internally, the widget is called `Information`.
 
 
-### What's New in 2.1.1.3
+### What's New in 3.0.0
 
 - Support for configurable iframe domains through the DataStore (`allowedIframeDomains`).
 - User-friendly error message when an iframe from a non-allowed domain is displayed.
 - Compatibility with DHIS2 v42+ and modern URLs.
 - Sanitization bug fixes and improved handling of images and videos.
 - Author updated to PAHO/CIM.
+- Added multilanguage support
 
 <img width="900" alt="DHIS2 DHIS2 Rich Text and Video Dashboard Widget example" src="https://user-images.githubusercontent.com/852673/107974482-a801f980-6f84-11eb-8e04-1b9189c70073.png">
 
@@ -150,9 +151,11 @@ To add a language (example `pt`):
 
 ## Issues, Features, etc.
 
-Please create [an issue](https://github.com/pepfar-datim/dashboard-information-widget/issues) or [a pull request](https://github.com/pepfar-datim/dashboard-information-widget/pulls).
+Please create [an issue](https://github.com/IM-Data-PAHO/dashboard-information-widget/issues) or [a pull request](https://github.com/IM-Data-PAHO/dashboard-information-widget/pulls).
 
 ## Original Credits
+
+Updated and maintained by [@millacurafa](https://github.com/millacurafa) PAHO/CIM.
 
 Originally developed by [@jakub-bao](https://github.com/jakub-bao) and [@plinnegan](https://github.com/plinnegan).
 Updated and maintained by PAHO/CIM.
