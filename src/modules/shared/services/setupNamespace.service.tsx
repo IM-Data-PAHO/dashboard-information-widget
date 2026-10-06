@@ -7,7 +7,7 @@ function getDefaultConfiguration() {
     return {
         [config.onlyOpenToSuperUsersKey]: false,
         [config.defaultLocaleConfigKey]: 'en',
-        [config.supportedLocalesConfigKey]: ['en', 'es', 'fr'],
+        [config.supportedLocalesConfigKey]: ['en', 'es', 'fr', 'pt'],
         [config.allowLocaleOverrideConfigKey]: true,
     };
 }
@@ -31,7 +31,18 @@ async function ensureConfigurationDefaults(datastoreNamespace) {
             return;
         }
 
-        const merged = { ...defaults, ...existing };
+        const merged = {
+            ...defaults,
+            ...existing,
+            [config.supportedLocalesConfigKey]: Array.from(
+                new Set([
+                    ...(defaults[config.supportedLocalesConfigKey] as string[]),
+                    ...(Array.isArray(existing[config.supportedLocalesConfigKey])
+                        ? existing[config.supportedLocalesConfigKey]
+                        : []),
+                ])
+            ),
+        };
         const changed = JSON.stringify(merged) !== JSON.stringify(existing);
         if (changed) {
             await api.put(configurationPath, merged);

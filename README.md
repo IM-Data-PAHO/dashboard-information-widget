@@ -1,43 +1,43 @@
 
 # DHIS2 Rich Text and Video Dashboard Widget
 
-**Autor:** PAHO/CIM
+**Author:** PAHO/CIM
 
-**Versión:** 2.1.1.3
+**Version:** 2.1.1.3
 
 
 ## Overview
 
-El widget DHIS2 Rich Text and Video Dashboard Widget es un editor WYSIWYG que permite crear contenido enriquecido en los dashboards de DHIS2. Internamente, el widget se llama `Information`.
+The DHIS2 Rich Text and Video Dashboard Widget is a WYSIWYG editor for creating rich content in DHIS2 dashboards. Internally, the widget is called `Information`.
 
 
-### Novedades en 2.1.1.3
+### What's New in 2.1.1.3
 
-- Soporte para dominios de iframe configurables desde DataStore (`allowedIframeDomains`).
-- Mensaje de error amigable si se intenta mostrar un iframe de un dominio no permitido.
-- Compatibilidad con DHIS2 v42+ y URLs modernas.
-- Corrección de bugs de sanitización y robustez en imágenes y video.
-- Autor actualizado a PAHO/CIM.
+- Support for configurable iframe domains through the DataStore (`allowedIframeDomains`).
+- User-friendly error message when an iframe from a non-allowed domain is displayed.
+- Compatibility with DHIS2 v42+ and modern URLs.
+- Sanitization bug fixes and improved handling of images and videos.
+- Author updated to PAHO/CIM.
 
 <img width="900" alt="DHIS2 DHIS2 Rich Text and Video Dashboard Widget example" src="https://user-images.githubusercontent.com/852673/107974482-a801f980-6f84-11eb-8e04-1b9189c70073.png">
 
 ## Installation on DHIS2
 
-1. Install the app via the [App Hub](https://apps.dhis2.org/) or by uploading the zip from `npm run build` into the DHIS2 App Management app
+1. Install the app via the [App Hub](https://apps.dhis2.org/) or by uploading the zip from `npm run build` into the DHIS2 App Management app.
 2. Be sure to grant access to the app to all users, or they will not see the content. To do this, go to DHIS2 Users > User role > [role] > Apps > select `Information app`. Make sure to do this on enough roles to give all users access. (For example, if all users on your system have a Guest or Read Only role, giving the permission to that role is sufficient.)
 3. From the Dashboards page of your DHIS2 installation, edit a dashboard. (If you do not have any dashboards, you will need to add a new dashboard.)
 4. Click `Search for items to add to this dashboard`, and select `Information` under `Apps`.
 5. Click the Edit button on the Information widget to create content.
-6. If you would like to restrict the creation and editing of Information content to superusers, go to the Datastore Manager, select the `dashboard-information` namespace, then the `configuration` key and check the `Only open to superusers` box. (This namespace and key will only be present after you have created an  Information widget.)
+6. If you would like to restrict the creation and editing of Information content to superusers, go to the Datastore Manager, select the `dashboard-information` namespace, then the `configuration` key, and check the `Only open to superusers` box. (This namespace and key will only be present after you have created an Information widget.)
 7. If the widget shows the message `Refused to connect` after you add it to the dashboard, [follow these instructions to fix](https://github.com/pepfar-datim/dashboard-information-widget/blob/main/docs/RefusedToConnect.md).
 
 ## Local Build and Development
 
-1. Install all dependencies: `npm i`
-2. Setup your servers URLs in `serverConfig.dev.json` and `serverConfig.prod.json`
-3. Edit `manifest.webapp` to specify name of the app for your DHIS2 instance
-4. Run locally as `npm start`
-5. Build for production locally as `npm run build`
+1. Install all dependencies: `npm i`.
+2. Set up your server URLs in `serverConfig.dev.json` and `serverConfig.prod.json`.
+3. Edit `manifest.webapp` to specify the app name for your DHIS2 instance.
+4. Run locally with `npm start`.
+5. Build for production locally with `npm run build`.
 
 ### Embedding videos
 
@@ -95,7 +95,7 @@ In namespace `dashboard-information`, key `configuration`, the app reads:
 
 - `Only open to superusers` (existing behavior)
 - `Default locale` (example: `en`)
-- `Supported locales` (example: `['en', 'es', 'fr']`)
+- `Supported locales` (example: `['en', 'es', 'fr', 'pt']`)
 - `Allow locale override` (boolean)
 
 If these keys do not exist, the app initializes defaults automatically.
@@ -111,7 +111,8 @@ Each widget item now supports:
 	"bodyByLocale": {
 		"en": "<p>English content</p>",
 		"es": "<p>Contenido en espanol</p>",
-		"fr": "<p>Contenu en francais</p>"
+		"fr": "<p>Contenu en francais</p>",
+		"pt": "<p>Conteudo em portugues</p>"
 	}
 }
 ```
@@ -151,7 +152,7 @@ To add a language (example `pt`):
 
 Please create [an issue](https://github.com/pepfar-datim/dashboard-information-widget/issues) or [a pull request](https://github.com/pepfar-datim/dashboard-information-widget/pulls).
 
-## Créditos originales
+## Original Credits
 
-Desarrollado originalmente por [@jakub-bao](https://github.com/jakub-bao) y [@plinnegan](https://github.com/plinnegan).
-Actualizado y mantenido por PAHO/CIM.
+Originally developed by [@jakub-bao](https://github.com/jakub-bao) and [@plinnegan](https://github.com/plinnegan).
+Updated and maintained by PAHO/CIM.

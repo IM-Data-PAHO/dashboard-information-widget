@@ -2,7 +2,7 @@ import api from './api.service';
 
 const config = require('../../../config/config.json');
 
-const DEFAULT_SUPPORTED_LOCALES = ['en', 'es', 'fr'];
+const DEFAULT_SUPPORTED_LOCALES = ['en', 'es', 'fr', 'pt'];
 const DEFAULT_LOCALE = 'en';
 
 let cachedLocaleSettings: {
