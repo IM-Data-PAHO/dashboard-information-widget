@@ -9,8 +9,8 @@
     },
     "appType": "DASHBOARD_WIDGET",
     "name": "Information",
-    "version": "3.0.0",
-    "description": "Rich text editor for DHIS2 dashboard content, created for PEPFAR. Allows embedding videos. Strips Javascript from user-created content. For more info, see https://github.com/IM-Data-PAHO/dashboard-information-widget",
+    "version": "3.0.1",
+    "description": "Rich text editor for DHIS2 dashboard content, currently maintained by PAHO/CIM (Originally created for PEPFAR). Allows embedding videos. Strips Javascript from user-created content. For more info, see https://github.com/IM-Data-PAHO/dashboard-information-widget",
     "developer": {
         "name": "PAHO/CIM",
         "email": ""
