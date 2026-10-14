@@ -1,7 +1,7 @@
 
 # DHIS2 Rich Text and Video Dashboard Widget
 
-**Author:** Created by MillacuraFA for PAHO/CIM
+**Author:** Currently updated and maintained by [@millacurafa](https://github.com/millacurafa) for PAHO/CIM. Originally developed by @jakub-bao and @plinnegan. 
 
 **Version:** 3.0.0
 
