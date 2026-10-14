@@ -8,7 +8,7 @@ If you get the message `Refused to connect` when you hover over the widget after
 Refused to display ... in a frame because it set multiple 'X-Frame-Options' headers with conflicting values ('SAMEORIGIN, DENY'). Falling back to 'deny'.
 ```
 
-2. If you do not, please [create an issue](https://github.com/pepfar-datim/dashboard-information-widget/issues) and let us know what message you do see.
+2. If you do not, please [create an issue](https://github.com/IM-Data-PAHO/dashboard-information-widget/issues) and let us know what message you do see.
 
 3. If you do, your nginx config needs to be updated to allow the application to run. Change this line in your nginx config:
 ```
@@ -19,4 +19,4 @@ to:
 add_header X-Frame-Options SAMEORIGIN
 ```
 
-[Back to the README](https://github.com/pepfar-datim/dashboard-information-widget/blob/main/README.md)
+[Back to the README](https://github.com/IM-Data-PAHO/dashboard-information-widget/blob/main/README.md)

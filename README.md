@@ -1,7 +1,7 @@
 
 # DHIS2 Rich Text and Video Dashboard Widget
 
-**Author:** PAHO/CIM
+**Author:** Created by MillacuraFA for PAHO/CIM
 
 **Version:** 3.0.0
 
@@ -20,7 +20,7 @@ The DHIS2 Rich Text and Video Dashboard Widget is a WYSIWYG editor for creating 
 - Author updated to PAHO/CIM.
 - Added multilanguage support
 
-<img width="900" alt="DHIS2 DHIS2 Rich Text and Video Dashboard Widget example" src="https://user-images.githubusercontent.com/852673/107974482-a801f980-6f84-11eb-8e04-1b9189c70073.png">
+<img width="900" alt="DHIS2 DHIS2 Rich Text and Video Dashboard Widget example" src="./public/img/107974482-a801f980-6f84-11eb-8e04-1b9189c70073.png">
 
 ## Installation on DHIS2
 
@@ -30,7 +30,22 @@ The DHIS2 Rich Text and Video Dashboard Widget is a WYSIWYG editor for creating 
 4. Click `Search for items to add to this dashboard`, and select `Information` under `Apps`.
 5. Click the Edit button on the Information widget to create content.
 6. If you would like to restrict the creation and editing of Information content to superusers, go to the Datastore Manager, select the `dashboard-information` namespace, then the `configuration` key, and check the `Only open to superusers` box. (This namespace and key will only be present after you have created an Information widget.)
-7. If the widget shows the message `Refused to connect` after you add it to the dashboard, [follow these instructions to fix](https://github.com/pepfar-datim/dashboard-information-widget/blob/main/docs/RefusedToConnect.md).
+7. To resolve the error `Refused to connect` after you add it to the dashboard, check the following server configurations:
+	- **Remove conflicting X-Frame-Options headers:** Ensure your web server (NGINX, Apache, or Tomcat) does not set multiple conflicting values like `SAMEORIGIN`, `DENY`. It should be set cleanly to `SAMEORIGIN`.
+
+		For instance, Nginx config could need to be updated to allow the application to run. Change this line in your nginx config:
+		
+		```
+		add_header X-Frame-Options DENY
+
+		```
+		to 
+
+		```
+		add_header X-Frame-Options SAMEORIGIN
+		```
+	- **Update Content Security Policy (CSP):** If your server uses a `Content-Security-Policy` header, ensure `frame-ancestors 'self'` is properly declared so the app is allowed to frame itself.
+	- **Add to CORS Whitelist:** Ensure your instance or domain setup is correctly configured in the DHIS2 system settings under *System Settings -> Access -> CORS Whitelist.*
 
 ## Local Build and Development
 
@@ -158,4 +173,4 @@ Please create [an issue](https://github.com/IM-Data-PAHO/dashboard-information-w
 Updated and maintained by [@millacurafa](https://github.com/millacurafa) PAHO/CIM.
 
 Originally developed by [@jakub-bao](https://github.com/jakub-bao) and [@plinnegan](https://github.com/plinnegan).
-Updated and maintained by PAHO/CIM.
+Currently updated and maintained by PAHO/CIM.

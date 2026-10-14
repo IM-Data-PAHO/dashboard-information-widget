@@ -73,6 +73,18 @@ const dictionary: TranslationDictionary = {
         fr: 'Veuillez verifier votre connexion internet',
         pt: 'Verifique sua conexao com a internet',
     },
+    standalone_title: {
+        en: 'This is a dashboard widget',
+        es: 'Este es un widget de dashboard',
+        fr: 'Ceci est un widget de tableau de bord',
+        pt: 'Este e um widget de painel',
+    },
+    standalone_body: {
+        en: 'It cannot be used from the app menu. Open a dashboard, choose Edit, and add "Information" under Apps.',
+        es: 'No se puede usar desde el menu de aplicaciones. Abre un dashboard, elige Editar y agrega "Information" en Aplicaciones.',
+        fr: 'Il ne peut pas etre utilise depuis le menu des applications. Ouvrez un tableau de bord, choisissez Modifier et ajoutez "Information" sous Applications.',
+        pt: 'Nao pode ser usado a partir do menu de aplicacoes. Abra um painel, escolha Editar e adicione "Information" em Aplicacoes.',
+    },
     version_error_title: {
         en: 'Version Error',
         es: 'Error de version',
