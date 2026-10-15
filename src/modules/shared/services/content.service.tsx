@@ -1,10 +1,10 @@
+import config from '../../../config/config.json';
 import api, { formatParams } from '../../shared/services/api.service';
 import sanitize from '../../shared/services/sanitizeCompat.service';
 import getContentUrl, { getWidgetId } from './contentUrl.service';
 import { debugLog, getIframeDebugInfo } from './debug.service';
 import { getLanguagePart, normalizeLocale } from './locale.service';
 
-const config = require('../../../config/config.json');
 
 type LocalizedDataStoreBody = {
     body?: string;

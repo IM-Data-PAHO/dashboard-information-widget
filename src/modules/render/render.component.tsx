@@ -1,9 +1,9 @@
 import React from 'react';
-import { Button } from '@material-ui/core';
 import { Link } from 'react-router-dom';
 import { fetchContentDetails } from '../shared/services/content.service';
 import { sanitize } from '../shared/services/sanitize.service';
-import Typography from '@material-ui/core/Typography';
+import { Button, Typography } from '../shared/ui';
+import { getHostContext } from '../shared/services/hostContext.service';
 import { debugLog, getIframeDebugInfo } from '../shared/services/debug.service';
 import { t, getCurrentLocale } from '../shared/services/i18n.service';
 
@@ -18,7 +18,6 @@ export default class Render extends React.Component<
     {
         contentFetched: boolean;
         contentBody: string | null;
-        inDashEditMode: boolean;
         iframeError: string | null;
         selectedLocale: string | null;
         requestedLocale: string | null;
@@ -26,6 +25,8 @@ export default class Render extends React.Component<
     }
 > {
     getInDashEditMode() {
+        const { editMode } = getHostContext();
+        if (editMode !== undefined) return editMode;
         try {
             const hash = window.parent.location.hash || '';
             return hash.includes('edit') || hash.includes('new');
@@ -39,7 +40,6 @@ export default class Render extends React.Component<
         this.state = {
             contentFetched: false,
             contentBody: null,
-            inDashEditMode: this.getInDashEditMode(),
             iframeError: null,
             selectedLocale: null,
             requestedLocale: getCurrentLocale(),
@@ -95,7 +95,7 @@ export default class Render extends React.Component<
         else return <Typography></Typography>;
     }
     render() {
-        const editable = this.state.inDashEditMode && (this.props.isAdmin || !this.props.adminOnlyEdit);
+        const editable = this.getInDashEditMode() && (this.props.isAdmin || !this.props.adminOnlyEdit);
         return (
             <React.Fragment>
                 {editable || process.env.NODE_ENV === 'development' ? (

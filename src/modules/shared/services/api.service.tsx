@@ -1,13 +1,16 @@
 import { baseUrl } from './apiUrl.service';
 
-export default class Api {
-    static get(url) {
-        return fetch(baseUrl + url, { credentials: 'include' }).then((resp) =>
-            resp.json()
-        );
-    }
+export interface ApiTransport {
+    get(url: string): Promise<any>;
+    saveData(url: string, data: any, method: 'POST' | 'PUT'): Promise<any>;
+}
 
-    static saveData(url, data, method) {
+const fetchTransport: ApiTransport = {
+    get(url) {
+        return fetch(baseUrl + url, { credentials: 'include' }).then((resp) => resp.json());
+    },
+
+    saveData(url, data, method) {
         return fetch(baseUrl + url, {
             credentials: 'include',
             method: method,
@@ -22,6 +25,23 @@ export default class Api {
                 throw new Error('HTTP Reqest error');
             }
         });
+    },
+};
+
+let transport: ApiTransport = fetchTransport;
+
+// Lets a host (e.g. the App Platform build) provide its own HTTP layer.
+export function setApiTransport(next: ApiTransport) {
+    transport = next;
+}
+
+export default class Api {
+    static get(url) {
+        return transport.get(url);
+    }
+
+    static saveData(url, data, method: 'POST' | 'PUT') {
+        return transport.saveData(url, data, method);
     }
 
     static post(url, data) {

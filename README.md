@@ -3,7 +3,7 @@
 
 **Author:** Currently updated and maintained by [@millacurafa](https://github.com/millacurafa) for PAHO/CIM. Originally developed by @jakub-bao and @plinnegan. 
 
-**Version:** 3.0.0
+**Version:** 3.1.0
 
 
 ## Overview
@@ -11,11 +11,16 @@
 The DHIS2 Rich Text and Video Dashboard Widget is a WYSIWYG editor for creating rich content in DHIS2 dashboards. Internally, the widget is called `Information`.
 
 
+### What's New in 3.1.0
+
+- Two builds from one codebase: `dashboard-information-widget-v40.zip` (legacy widget for DHIS2 40 and earlier) and `dashboard-information-widget-v42.zip` (App Platform dashboard plugin for DHIS2 42, built with `@dhis2/app-runtime` and `@dhis2/ui`).
+- Opening the app directly from the app menu now shows a translated notice instead of an error.
+
 ### What's New in 3.0.0
 
 - Support for configurable iframe domains through the DataStore (`allowedIframeDomains`).
 - User-friendly error message when an iframe from a non-allowed domain is displayed.
-- Compatibility with DHIS2 v42+ and modern URLs.
+- Compatibility with DHIS2 v42 and modern URLs.
 - Sanitization bug fixes and improved handling of images and videos.
 - Author updated to PAHO/CIM.
 - Added multilanguage support
@@ -24,7 +29,10 @@ The DHIS2 Rich Text and Video Dashboard Widget is a WYSIWYG editor for creating 
 
 ## Installation on DHIS2
 
-1. Install the app via the [App Hub](https://apps.dhis2.org/) or by uploading the zip from `npm run build` into the DHIS2 App Management app.
+1. Install the app via the [App Hub](https://apps.dhis2.org/) or by uploading the matching zip into the DHIS2 App Management app:
+    - `dashboard-information-widget-v40.zip` for DHIS2 40 and earlier (legacy `DASHBOARD_WIDGET`).
+    - `dashboard-information-widget-v42.zip` for DHIS2 42 (App Platform dashboard plugin).
+    - The v42 build keeps the same app key (`Information`) and data store namespace (`dashboard-information`) as the legacy widget, so uploading it over the existing app keeps your dashboards and saved content working.
 2. Be sure to grant access to the app to all users, or they will not see the content. To do this, go to DHIS2 Users > User role > [role] > Apps > select `Information app`. Make sure to do this on enough roles to give all users access. (For example, if all users on your system have a Guest or Read Only role, giving the permission to that role is sufficient.)
 3. From the Dashboards page of your DHIS2 installation, edit a dashboard. (If you do not have any dashboards, you will need to add a new dashboard.)
 4. Click `Search for items to add to this dashboard`, and select `Information` under `Apps`.
@@ -51,9 +59,11 @@ The DHIS2 Rich Text and Video Dashboard Widget is a WYSIWYG editor for creating 
 
 1. Install all dependencies: `npm i`.
 2. Set up your server URLs in `serverConfig.dev.json` and `serverConfig.prod.json`.
-3. Edit `manifest.webapp` to specify the app name for your DHIS2 instance.
+3. Edit `public/manifest.webapp` to specify the app name for your DHIS2 instance (v40 build). The v42 manifest is generated from `platform/d2.config.js`.
 4. Run locally with `npm start`.
-5. Build for production locally with `npm run build`.
+5. Build the v40 zip with `npm run build:v40`.
+6. Build the v42 zip (App Platform, in `platform/`) with `npm run install:platform` once, then `npm run build:v42`.
+7. `npm run build` builds both zips into the repository root.
 
 ### Embedding videos
 

@@ -1,4 +1,5 @@
-const config = require('../../../config/config.json');
+import config from '../../../config/config.json';
+import { getHostContext } from './hostContext.service';
 
 const widgetQueryKeys = [
     'dashboardItemId',
@@ -48,6 +49,8 @@ function getWidgetIdFromWindow(): string | null {
 }
 
 export function getWidgetId():string|null{
+    const hostWidgetId = getHostContext().widgetId;
+    if (hostWidgetId) return hostWidgetId;
     if (process.env.NODE_ENV === 'development') {
         return 'devDashUid1';
     } else {

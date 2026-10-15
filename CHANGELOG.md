@@ -1,5 +1,12 @@
 # Changelog
 
+## 3.1.0 (2026-10-15)
+
+- Two builds are now produced: `dashboard-information-widget-v40.zip` (legacy widget, DHIS2 ≤ 40) and `dashboard-information-widget-v42.zip` (DHIS2 App Platform dashboard plugin built with `@dhis2/app-runtime` + `@dhis2/ui`, in `platform/`).
+- Shared code now has a pluggable API transport, host context (widget id / edit mode) and overridable UI primitives, so both builds reuse the same modules.
+- The v42 plugin keeps the legacy app key (`Information`) and data store namespace, so existing dashboard items and saved content continue to work after upgrading.
+- New scripts: `build:v40`, `build:v42`, `install:platform`; `build` runs both.
+
 ## 3.0.0 (2026-10-14)
 
 - Version bumped to 3.0.0 in `manifest.webapp`, `package.json`, `package-lock.json`, and the README.

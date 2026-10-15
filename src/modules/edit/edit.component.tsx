@@ -1,6 +1,6 @@
 import React from 'react';
 import { fetchContentDetails, saveContent } from '../shared/services/content.service';
-import { Button } from '@material-ui/core';
+import { Button } from '../shared/ui';
 import { Link, withRouter } from 'react-router-dom';
 import Editor from './editor.component';
 import contentHook from '../shared/services/contentHook.service';

@@ -2,6 +2,10 @@
 /build
 /coverage
 /scripts/*
+/platform/node_modules
+/platform/.d2
+/platform/build
+/platform/src/shared
 
 
 npm-debug.log*

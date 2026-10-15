@@ -2,9 +2,9 @@ import React from 'react';
 import { ensureAllowedIframeDomainsKey } from '../../shared/services/iframeDomains.service';
 import RouterWrapper from './routerWrapper.component';
 import api from '../../shared/services/api.service';
+import config from '../../../config/config.json';
 import DhisVersionError from './dhisVersionError.component';
 
-const config = require('../../../config/config.json');
 
 export default class AccessWrapper extends React.Component<any, any> {
     constructor(props) {

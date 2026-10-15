@@ -1,6 +1,6 @@
 {
   "name": "dashboard-information",
-  "version": "3.0.0",
+  "version": "3.1.0",
   "private": true,
   "dependencies": {
     "@fortawesome/fontawesome-svg-core": "^1.2.32",
@@ -25,10 +25,13 @@
   "scripts": {
     "start": "NODE_OPTIONS=--openssl-legacy-provider react-scripts start",
     "build:react": "NODE_OPTIONS=--openssl-legacy-provider react-scripts build",
-    "build:zip": "(rm -f dashboard-information-widget.zip && cd build && zip ../dashboard-information-widget.zip -r .)",
+    "build:zip": "(rm -f dashboard-information-widget-v40.zip && cd build && zip ../dashboard-information-widget-v40.zip -r .)",
+    "build:v40": "npm run build:react && npm run build:zip",
+    "install:platform": "npm --prefix platform install",
+    "build:v42": "npm --prefix platform run build",
     "postbuild": "bash scripts/sync-build-to-vpd-dhis2-custom.sh",
     "sync:vpd-dhis2-custom": "bash scripts/sync-build-to-vpd-dhis2-custom.sh",
-    "build": "npm run build:react && npm run build:zip",
+    "build": "npm run build:v40 && npm run build:v42",
     "test": "NODE_OPTIONS=--openssl-legacy-provider react-scripts test"
   },
   "eslintConfig": {

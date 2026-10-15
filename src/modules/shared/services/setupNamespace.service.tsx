@@ -1,7 +1,7 @@
+import config from '../../../config/config.json';
 import api from './api.service';
 import { getKeyUid, shareKey } from './content.service';
 
-const config = require('../../../config/config.json');
 
 function getDefaultConfiguration() {
     return {
