@@ -1,0 +1,81 @@
+import React from 'react';
+import { ensureAllowedIframeDomainsKey } from '../../shared/services/iframeDomains.service';
+import RouterWrapper from './routerWrapper.component';
+import api from '../../shared/services/api.service';
+import config from '../../../config/config.json';
+import DhisVersionError from './dhisVersionError.component';
+
+
+export default class AccessWrapper extends React.Component<any, any> {
+    constructor(props) {
+        super(props);
+        this.state = {
+            adminOnlyEdit: true,
+            isAdmin: false,
+            dhisVersion: null
+        };
+        this.checkUser();
+        this.checkVersion();
+        this.checkAdminOnlyEdit();
+        // Asegura que la clave de dominios permitidos exista
+        ensureAllowedIframeDomainsKey();
+    }
+
+    checkUser() {
+        api.get('/me?fields=userCredentials[userRoles[name,id]]').then(
+            (res) => {
+                const roles =
+                    res?.userCredentials?.userRoles ||
+                    res?.userRoles ||
+                    [];
+                const isAdmin = roles.some(
+                    (role) =>
+                        role?.name?.includes('Superuser') ||
+                        role?.name?.includes('Administr')
+                );
+                this.setState({ isAdmin });
+            }
+        ).catch(() => {
+            // Keep read-only behavior if user role lookup fails.
+            this.setState({ isAdmin: false });
+        });
+    }
+
+    checkVersion() {
+        api.get('/system/info').then((res) => {
+            this.setState({ dhisVersion: res.version.match(/^\d+\.\d+/)[0] });
+        });
+    }
+
+    checkAdminOnlyEdit() {
+        api.get(`/dataStore`).then((res) => {
+            if (res.includes(config.datastoreNamespace)) {
+                api.get(
+                    `/dataStore/${config.datastoreNamespace}/configuration`
+                ).then((res) => {
+                    this.setState({
+                        adminOnlyEdit: res[config.onlyOpenToSuperUsersKey],
+                    });
+                });
+            }
+        });
+    }
+
+    render() {
+        return (
+            <React.Fragment>
+                {this.state.dhisVersion !== null && parseFloat(this.state.dhisVersion) < 2.31 ? (
+                    <DhisVersionError version={this.state.dhisVersion} />
+                ) : (
+                    <RouterWrapper
+                        postMessage={(message) =>
+                            this.props.postMessage(message)
+                        }
+                        isAdmin={this.state.isAdmin}
+                        adminOnlyEdit={this.state.adminOnlyEdit}
+                    />
+                )}
+            </React.Fragment>
+        );
+    }
+}

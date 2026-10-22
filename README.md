@@ -1,0 +1,186 @@
+
+# DHIS2 Rich Text and Video Dashboard Widget
+
+**Author:** Currently updated and maintained by [@millacurafa](https://github.com/millacurafa) for PAHO/CIM. Originally developed by @jakub-bao and @plinnegan. 
+
+**Version:** 3.1.0
+
+
+## Overview
+
+The DHIS2 Rich Text and Video Dashboard Widget is a WYSIWYG editor for creating rich content in DHIS2 dashboards. Internally, the widget is called `Information`.
+
+
+### What's New in 3.1.0
+
+- Two builds from one codebase: `dashboard-information-widget-v40.zip` (legacy widget for DHIS2 40 and earlier) and `dashboard-information-widget-v42.zip` (App Platform dashboard plugin for DHIS2 42, built with `@dhis2/app-runtime` and `@dhis2/ui`).
+- Opening the app directly from the app menu now shows a translated notice instead of an error.
+
+### What's New in 3.0.0
+
+- Support for configurable iframe domains through the DataStore (`allowedIframeDomains`).
+- User-friendly error message when an iframe from a non-allowed domain is displayed.
+- Compatibility with DHIS2 v42 and modern URLs.
+- Sanitization bug fixes and improved handling of images and videos.
+- Author updated to PAHO/CIM.
+- Added multilanguage support
+
+<img width="900" alt="DHIS2 DHIS2 Rich Text and Video Dashboard Widget example" src="./public/img/107974482-a801f980-6f84-11eb-8e04-1b9189c70073.png">
+
+## Installation on DHIS2
+
+1. Install the app via the [App Hub](https://apps.dhis2.org/) or by uploading the matching zip into the DHIS2 App Management app:
+    - `dashboard-information-widget-v40.zip` for DHIS2 40 and earlier (legacy `DASHBOARD_WIDGET`).
+    - `dashboard-information-widget-v42.zip` for DHIS2 42 (App Platform dashboard plugin).
+    - The v42 build keeps the same app key (`Information`) and data store namespace (`dashboard-information`) as the legacy widget, so uploading it over the existing app keeps your dashboards and saved content working.
+2. Be sure to grant access to the app to all users, or they will not see the content. To do this, go to DHIS2 Users > User role > [role] > Apps > select `Information app`. Make sure to do this on enough roles to give all users access. (For example, if all users on your system have a Guest or Read Only role, giving the permission to that role is sufficient.)
+3. From the Dashboards page of your DHIS2 installation, edit a dashboard. (If you do not have any dashboards, you will need to add a new dashboard.)
+4. Click `Search for items to add to this dashboard`, and select `Information` under `Apps`.
+5. Click the Edit button on the Information widget to create content.
+6. If you would like to restrict the creation and editing of Information content to superusers, go to the Datastore Manager, select the `dashboard-information` namespace, then the `configuration` key, and check the `Only open to superusers` box. (This namespace and key will only be present after you have created an Information widget.)
+7. To resolve the error `Refused to connect` after you add it to the dashboard, check the following server configurations:
+	- **Remove conflicting X-Frame-Options headers:** Ensure your web server (NGINX, Apache, or Tomcat) does not set multiple conflicting values like `SAMEORIGIN`, `DENY`. It should be set cleanly to `SAMEORIGIN`.
+
+		For instance, Nginx config could need to be updated to allow the application to run. Change this line in your nginx config:
+		
+		```
+		add_header X-Frame-Options DENY
+
+		```
+		to 
+
+		```
+		add_header X-Frame-Options SAMEORIGIN
+		```
+	- **Update Content Security Policy (CSP):** If your server uses a `Content-Security-Policy` header, ensure `frame-ancestors 'self'` is properly declared so the app is allowed to frame itself.
+	- **Add to CORS Whitelist:** Ensure your instance or domain setup is correctly configured in the DHIS2 system settings under *System Settings -> Access -> CORS Whitelist.*
+
+## Local Build and Development
+
+1. Install all dependencies: `npm i`.
+2. Set up your server URLs in `serverConfig.dev.json` and `serverConfig.prod.json`.
+3. Edit `public/manifest.webapp` to specify the app name for your DHIS2 instance (v40 build). The v42 manifest is generated from `platform/d2.config.js`.
+4. Run locally with `npm start`.
+5. Build the v40 zip with `npm run build:v40`.
+6. Build the v42 zip (App Platform, in `platform/`) with `npm run install:platform` once, then `npm run build:v42`.
+7. `npm run build` builds both zips into the repository root.
+
+### Embedding videos
+
+- In the editor, use the video/embed option and paste an iframe embed URL.
+- Recommended YouTube format:
+	`https://www.youtube.com/embed/<VIDEO_ID>`
+- The sanitizer strips unsafe scripts and keeps only allowed hosts/attributes.
+
+### Debug mode for iframe/video issues
+
+If videos appear while editing but later become placeholders, enable debug mode and inspect the full content pipeline.
+
+- Enable with URL flag: add `widgetDebug=1` in query or hash.
+	- Example: `.../api/apps/dashboard-information/index.html#/edit?widgetDebug=1`
+- Or enable from browser console:
+	- `localStorage.setItem('dashboard-information-debug', '1')`
+	- Reload the app.
+- Disable from browser console:
+	- `localStorage.removeItem('dashboard-information-debug')`
+
+When enabled, console lines prefixed with `[DIW DEBUG]` will show a visible summary for every event:
+
+- Raw content fetched from DataStore
+- Content after sanitization
+- Content before and after `contentHook` cleanup
+- Content before save request
+- Final content rendered
+
+Each event includes iframe diagnostics (`iframeCount`, `iframeWithoutSrcCount`, `iframeSrcs`, and Jodit wrapper detection) to identify the exact stage where `src` is lost.
+
+Extra console helpers:
+
+- `window.__diwDebugDump()` prints a table with all events.
+- `window.__diwDebugLast()` returns the latest raw debug event object.
+
+## Multilanguage translations in DHIS2
+
+This widget now supports two translation layers:
+
+1. Interface translations (buttons, messages, alerts)
+2. Dashboard content translations (rich text/video body per language)
+
+### How locale is resolved
+
+The widget resolves active locale in this order:
+
+1. URL override (`?lang=es` or `?locale=fr`) when `Allow locale override` is enabled
+2. DHIS2 user locale (`/me` profile settings)
+3. Widget default locale from DataStore configuration
+4. `en`
+
+### DataStore configuration keys
+
+In namespace `dashboard-information`, key `configuration`, the app reads:
+
+- `Only open to superusers` (existing behavior)
+- `Default locale` (example: `en`)
+- `Supported locales` (example: `['en', 'es', 'fr', 'pt']`)
+- `Allow locale override` (boolean)
+
+If these keys do not exist, the app initializes defaults automatically.
+
+### Localized content model
+
+Each widget item now supports:
+
+```json
+{
+	"body": "<p>Latest saved content</p>",
+	"defaultLocale": "en",
+	"bodyByLocale": {
+		"en": "<p>English content</p>",
+		"es": "<p>Contenido en espanol</p>",
+		"fr": "<p>Contenu en francais</p>",
+		"pt": "<p>Conteudo em portugues</p>"
+	}
+}
+```
+
+Backwards compatibility is preserved:
+
+- If `bodyByLocale` is missing, the widget still renders legacy `body`.
+- Saving from the editor writes locale-aware structure automatically.
+
+### Editing content in multiple languages
+
+1. Open widget edit mode.
+2. Use the Language selector above the editor.
+3. Update content for the selected locale.
+4. Save.
+
+The render view will show the best available fallback if current locale content is not present.
+
+### Extending UI translations
+
+UI strings are managed in:
+
+- `src/modules/shared/services/i18n.service.ts`
+
+To add a language (example `pt`):
+
+1. Add `pt` under each translation key in `dictionary`.
+2. Add `pt` to `Supported locales` in DataStore configuration.
+3. Optionally set `Default locale` to `pt`.
+
+### Testing locale behavior quickly
+
+- Add `?lang=es` or `?lang=fr` to widget URL.
+- Or disable override and test with users that have different DHIS2 locale preferences.
+
+## Issues, Features, etc.
+
+Please create [an issue](https://github.com/IM-Data-PAHO/dashboard-information-widget/issues) or [a pull request](https://github.com/IM-Data-PAHO/dashboard-information-widget/pulls).
+
+## Original Credits
+
+Updated and maintained by [@millacurafa](https://github.com/millacurafa) PAHO/CIM.
+
+Originally developed by [@jakub-bao](https://github.com/jakub-bao) and [@plinnegan](https://github.com/plinnegan).
+Currently updated and maintained by PAHO/CIM.

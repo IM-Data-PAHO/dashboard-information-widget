@@ -1,0 +1,60 @@
+{
+  "name": "dashboard-information",
+  "version": "3.1.0",
+  "private": true,
+  "dependencies": {
+    "@fortawesome/fontawesome-svg-core": "^1.2.32",
+    "@fortawesome/free-solid-svg-icons": "^5.15.1",
+    "@fortawesome/react-fontawesome": "^0.1.12",
+    "@material-ui/core": "^4.11.0",
+    "@material-ui/icons": "^4.9.1",
+    "@types/jest": "^26.0.15",
+    "@types/node": "^14.14.7",
+    "@types/react": "^16.9.56",
+    "@types/react-dom": "^16.9.9",
+    "d2": "^31.8.2",
+    "jodit-react": "^1.0.66",
+    "query-string": "^6.13.7",
+    "react": "^16.8.6",
+    "react-dom": "^16.8.6",
+    "react-router-dom": "^5.0.1",
+    "react-scripts": "3.4.3",
+    "sanitize-html": "^2.1.2",
+    "typescript": "^4.0.5"
+  },
+  "scripts": {
+    "start": "NODE_OPTIONS=--openssl-legacy-provider react-scripts start",
+    "build:react": "NODE_OPTIONS=--openssl-legacy-provider react-scripts build",
+    "build:zip": "(rm -f dashboard-information-widget-v40.zip && cd build && zip ../dashboard-information-widget-v40.zip -r .)",
+    "build:v40": "npm run build:react && npm run build:zip",
+    "install:platform": "npm --prefix platform install",
+    "build:v42": "npm --prefix platform run build",
+    "postbuild": "bash scripts/sync-build-to-vpd-dhis2-custom.sh",
+    "sync:vpd-dhis2-custom": "bash scripts/sync-build-to-vpd-dhis2-custom.sh",
+    "build": "npm run build:v40 && npm run build:v42",
+    "test": "NODE_OPTIONS=--openssl-legacy-provider react-scripts test"
+  },
+  "eslintConfig": {
+    "extends": "react-app"
+  },
+  "homepage": ".",
+  "browserslist": {
+    "production": [
+      ">0.2%",
+      "not dead",
+      "not op_mini all"
+    ],
+    "development": [
+      "last 1 chrome version",
+      "last 1 firefox version",
+      "last 1 safari version"
+    ]
+  },
+  "prettier": {
+    "trailingComma": "es5",
+    "tabWidth": 4,
+    "semi": true,
+    "singleQuote": true,
+    "printWidth": 120
+  }
+}

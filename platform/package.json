@@ -1,0 +1,25 @@
+{
+  "name": "dashboard-information-plugin",
+  "version": "3.1.0",
+  "description": "Rich text editor for DHIS2 dashboard content. Allows embedding videos. Strips Javascript from user-created content.",
+  "author": "PAHO/CIM",
+  "private": true,
+  "license": "BSD-3-Clause",
+  "scripts": {
+    "prepare:shared": "node scripts/prepare-shared.js",
+    "start": "npm run prepare:shared && d2-app-scripts start",
+    "build": "npm run prepare:shared && d2-app-scripts build && node scripts/copy-zip.js"
+  },
+  "devDependencies": {
+    "@dhis2/cli-app-scripts": "^12.11.7"
+  },
+  "dependencies": {
+    "@dhis2/app-runtime": "^3.17.4",
+    "@dhis2/ui": "^10.19.3",
+    "jodit-react": "^1.0.66",
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1",
+    "react-router-dom": "^5.3.4",
+    "sanitize-html": "^2.1.2"
+  }
+}
